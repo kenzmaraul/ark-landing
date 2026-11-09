@@ -143,8 +143,8 @@
     document.querySelectorAll('.plan').forEach((card) => {
       card.addEventListener('pointermove', (event) => {
         const rect = card.getBoundingClientRect();
-        const x = (event.clientX - rect.left) / rect.width - .5;
-        const y = (event.clientY - rect.top) / rect.height - .5;
+        const x = Math.max(-.5, Math.min(.5, (event.clientX - rect.left) / rect.width - .5));
+        const y = Math.max(-.5, Math.min(.5, (event.clientY - rect.top) / rect.height - .5));
         card.style.transform = `perspective(900px) rotateX(${-y * 1.5}deg) rotateY(${x * 1.5}deg) translateY(-3px)`;
       }, { passive: true });
       card.addEventListener('pointerleave', () => { card.style.transform = ''; });
