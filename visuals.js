@@ -120,6 +120,8 @@
     window.addEventListener('scroll', () => {
       const hero = document.querySelector('.hero').getBoundingClientRect();
       scrollDepth = Math.max(0, Math.min(1, -hero.top / Math.max(hero.height, 1)));
+      const pageRange = Math.max(document.documentElement.scrollHeight - innerHeight, 1);
+      document.querySelector('.scroll-line').style.width = `${Math.min(scrollY / pageRange, 1) * 100}%`;
     }, { passive: true });
     const features = Array.from(document.querySelectorAll('.feature'));
     features.forEach((feature, index) => { feature.style.transitionDelay = `${(index % 4) * 40}ms`; });
@@ -130,6 +132,36 @@
       }), { threshold: .12 });
       features.forEach((feature) => observer.observe(feature));
     } else features.forEach((feature) => feature.classList.add('is-visible'));
+  }
+  if (!mobile && !reduced) {
+    const aura = document.querySelector('.cursor-aura');
+    document.addEventListener('pointermove', (event) => {
+      aura.style.transform = `translate(${event.clientX - 90}px, ${event.clientY - 90}px)`;
+      aura.classList.add('active');
+    }, { passive: true });
+    document.addEventListener('pointerleave', () => aura.classList.remove('active'));
+    document.querySelectorAll('.plan').forEach((card) => {
+      card.addEventListener('pointermove', (event) => {
+        const rect = card.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - .5;
+        const y = (event.clientY - rect.top) / rect.height - .5;
+        card.style.transform = `perspective(900px) rotateX(${-y * 1.5}deg) rotateY(${x * 1.5}deg) translateY(-3px)`;
+      }, { passive: true });
+      card.addEventListener('pointerleave', () => { card.style.transform = ''; });
+    });
+  }
+  if (!reduced) {
+    document.querySelectorAll('.button-primary, .button-secondary').forEach((button) => {
+      button.addEventListener('pointerdown', (event) => {
+        const rect = button.getBoundingClientRect();
+        const ripple = document.createElement('span');
+        ripple.className = 'ripple';
+        ripple.style.left = `${event.clientX - rect.left - 6}px`;
+        ripple.style.top = `${event.clientY - rect.top - 6}px`;
+        button.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 280);
+      });
+    });
   }
   let resizeTimer;
   window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(resize, 150); });
