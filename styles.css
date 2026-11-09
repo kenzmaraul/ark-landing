@@ -102,6 +102,18 @@ button, [role='button'] { cursor: pointer; }
 .button-primary:active { transform: translateY(0) scale(.98); }
 .text-link { min-height: 44px; display: inline-flex; align-items: center; gap: 8px; }
 .hero-note { margin-top: 16px; color: var(--text-3); font: 11px/1.6 var(--font-mono); }
+.scroll-line { position: fixed; inset: 0 auto auto 0; z-index: 40; width: 0; height: 2px; background: var(--accent); transform-origin: left; opacity: .8; pointer-events: none; }
+.cursor-aura { position: fixed; left: 0; top: 0; z-index: 1; width: 180px; height: 180px; border-radius: 50%; background: radial-gradient(circle, oklch(0.82 0.17 155 / .08), transparent 68%); transform: translate(-50%, -50%); pointer-events: none; opacity: 0; transition: opacity 180ms ease-out; }
+.cursor-aura.active { opacity: 1; }
+.quick-actions { display: flex; gap: 8px; margin-top: 24px; }
+.quick-action { position: relative; display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); color: var(--muted); transition: transform 150ms ease-out, border-color 150ms ease-out, color 150ms ease-out; }
+.quick-action svg { width: 20px; height: 20px; }
+.quick-action:hover, .quick-action:focus-visible { transform: translateY(-3px) rotate(-2deg); border-color: var(--accent); color: var(--accent); text-decoration: none; }
+.quick-action:active { transform: scale(.92); }
+.quick-action::after { content: attr(data-tooltip); position: absolute; left: 50%; bottom: calc(100% + 8px); transform: translateX(-50%) translateY(4px); padding: 4px 8px; border: 1px solid var(--border); border-radius: 5px; background: var(--surface-2); color: var(--text); font: 10px var(--font-mono); white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 140ms ease-out, transform 140ms ease-out; }
+.quick-action:hover::after, .quick-action:focus-visible::after { opacity: 1; transform: translateX(-50%) translateY(0); }
+.ripple { position: absolute; width: 12px; height: 12px; border-radius: 50%; background: currentColor; opacity: .2; transform: scale(0); animation: ripple 260ms ease-out; pointer-events: none; }
+@keyframes ripple { to { transform: scale(18); opacity: 0; } }
 .hero-visual { position: relative; min-height: 520px; display: flex; align-items: flex-end; overflow: clip; }
 .orbital-frame {
   position: absolute; inset: 0 -12vw 0 -60px; pointer-events: none;
